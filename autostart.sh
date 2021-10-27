@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+
+# This file [ "$HOME/.dwm" ]
+
+# Network management tray applet
+# 	Use nm-tray in Debian if there is no nm-applet installed
+exec nm-applet &
+
+# Mount network drive
+sshfs dietpi@192.168.1.244:/mnt/external-drive /mnt/sftp/
+
+# monitor standby | suspend | off
+exec xset dpms 3600 4500 0 &
+# screensaver off
+exec xset s off &
+
+# allows java programs to run
+# https://tools.suckless.org/x/wmname/
+wmname LG3D &
+
+feh --bg-scale ~/Pictures/wallpaper.jpg &
+
+# !! Update location here (and once below) !!
+WEATHER=$(curl wttr.in/Cardiff?format="%l:+%m+%p+%w+%t+%c+%C")
+
+while true; do
+	LOCALTIME=$(date +'%A, %d-%m-%Y %H:%M')
+        MEM=$(free -h --kilo | awk '/^Mem:/ {print $3 "/" $2}')
+        #LINUX=$(uname -r)
+        #TOTALDOWN=$(sudo ifconfig wlan0 | grep "RX packets" | awk {'print $6 $7'})
+        #TOTALUP=$(sudo ifconfig wlan0 | grep "TX packets" | awk {'print $6 $7'})
+        CPU=$(top -bn1 | grep "Cpu(s)" | sed "s/.*, *\([0-9.]*\)%* id.*/\1/" | awk '{print 100 - $1"%"}')
+        VOL=$(awk -F"[][]" '/Left:/ { print $2 }' <(amixer sget Master))
+        # Check Weather every half hour
+        # !! Update location here !!
+        if [ $(date +'%M') == 30 ] || [ $(date +'%M') == 00 ]; then WEATHER=$(curl wttr.in/Cardiff?format="%l:+%m+%p+%w+%t+%c+%C"); fi
+        xsetroot -name " $LOCALTIME | MEM: $MEM | CPU: $CPU | $WEATHER | 🔊$VOL | "
+        sleep 10s
+done &
