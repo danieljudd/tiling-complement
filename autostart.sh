@@ -50,7 +50,7 @@ while true; do
         #TOTALUP=$(sudo ifconfig wlan0 | grep "TX packets" | awk {'print $6 $7'})
         CPU=$(top -bn1 | grep "Cpu(s)" | sed "s/.*, *\([0-9.]*\)%* id.*/\1/" | awk '{print 100 - $1"%"}')
         VOL=$(awk -F"[][]" '/Left:/ { print $2 }' <(amixer sget Master))
-        BAT=$(cat /sys/class/power_supply/BAT0/capacity)
+        BAT=$(cat '/sys/class/power_supply/BAT0/capacity')
         # Check Weather every half hour
         # !! Update location here !!
         if [ $(date +'%M') == 30 ] || [ $(date +'%M') == 00 ]; then WEATHER=$(curl wttr.in/Cardiff?format="%l:+%m+%p+%w+%t+%c+%C"); fi
