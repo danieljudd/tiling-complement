@@ -1,4 +1,4 @@
-#    Copyright (C) 2021  Daniel Judd, https://github.com/danieljudd AND
+#    Copyright (C) 2021  Daniel Judd, https://github.com/danieljudd
 #    danieljudd.xyz
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -16,7 +16,7 @@
 
 #!/usr/bin/env bash
 
-# This file [ "$HOME/.dwm" ]
+# This file may go here [ "$HOME/.dwm" ]
 
 # Network management tray applet
 # 	Use nm-tray in Debian if there is no nm-applet installed
@@ -24,6 +24,9 @@ exec nm-applet &
 
 # Mount network drive
 # sshfs (username@ip):/mnt/LANdrive /mnt/localdrive/
+
+# Bluetooth tray
+exec blueberry-tray &
 
 # monitor standby | suspend | off
 exec xset dpms 3600 4500 0 &
@@ -47,7 +50,7 @@ while true; do
         #TOTALUP=$(sudo ifconfig wlan0 | grep "TX packets" | awk {'print $6 $7'})
         CPU=$(top -bn1 | grep "Cpu(s)" | sed "s/.*, *\([0-9.]*\)%* id.*/\1/" | awk '{print 100 - $1"%"}')
         VOL=$(awk -F"[][]" '/Left:/ { print $2 }' <(amixer sget Master))
-        BAT=$(upower -i $(upower -e | grep BAT) | grep "percentage" | grep -Eo '[0-9]{1,3}')
+        BAT=$(cat /sys/class/power_supply/BAT0/capacity)
         # Check Weather every half hour
         # !! Update location here !!
         if [ $(date +'%M') == 30 ] || [ $(date +'%M') == 00 ]; then WEATHER=$(curl wttr.in/Cardiff?format="%l:+%m+%p+%w+%t+%c+%C"); fi
