@@ -6,3 +6,6 @@ For dwm, i3, or otherwise
 
 Optional dependencies (default: ON):
 blueberry, nm-applet, feh
+
+Recommended/Required:
+ttf-dejavu (for emoji to render)
