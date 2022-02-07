@@ -46,7 +46,7 @@ while true; do
         # 	!! Update location here !!
         
         if [ $(date +'%M') == 30 ] || [ $(date +'%M') == 00 ]; then WEATHER=$(curl wttr.in/Cardiff?format="%l:+%m+%p+%w+%t+%c+%C"); fi
-        xsetroot -name "⌚️ $LOCALTIME | 💾️ $MEM | ⚡️ $CPU | $WEATHER | 🎚️ $VOL"
+        xsetroot -name "⌚️ $LOCALTIME | 💾️ $MEM | 🌀️ $CPU | $WEATHER | 🎧️ $VOL"
         
         sleep 10s
 done &
